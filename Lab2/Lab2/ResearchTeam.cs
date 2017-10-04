@@ -1,6 +1,9 @@
 ﻿using System;
-using System.Runtime.Serialization.Formatters.Binary;
+using System;
 using System.IO;
+using System.Runtime.Serialization;
+using System.Runtime.Serialization.Formatters.Binary;
+
 namespace Lab2
 {
     public class ResearchTeam : Team
@@ -10,20 +13,23 @@ namespace Lab2
         private System.Collections.ArrayList _projectMembers;
         private System.Collections.ArrayList _publicationList;
 
-        ResearchTeam(string organizationName,string researchTopic,int registrationNumber, TimeFrame duration)
+        public ResearchTeam(string organizationName,string researchTopic,int registrationNumber, TimeFrame duration)
         {
             _organizationName = organizationName;
             _registrationNumber = registrationNumber;
             _topicOfResearch = researchTopic;
             _durationResearch = duration;
+            _projectMembers = new System.Collections.ArrayList();
+            _publicationList = new System.Collections.ArrayList();
         }
 
-		ResearchTeam()
+		public ResearchTeam()
 		{
-			_organizationName = "organization_name";
-			_registrationNumber = -1;
+			
 			_topicOfResearch = "research_topic";
             _durationResearch = TimeFrame.Year;
+			_projectMembers = new System.Collections.ArrayList();
+			_publicationList = new System.Collections.ArrayList();
 		}
 
         public System.Collections.ArrayList PublicationList
@@ -75,8 +81,7 @@ namespace Lab2
         public override string ToString()
         {
             string print = "";
-			print = string.Format("Team - {0}, RegistrationNumber = {1}, Topic of Research - {3}, Research duration - {4} ]",
-								 _organizationName, _registrationNumber, _topicOfResearch, _durationResearch);
+			print =  _organizationName + " " + _registrationNumber + " " + _topicOfResearch + " " + _durationResearch;
 
             foreach (Person element in _projectMembers)
             {
@@ -101,15 +106,15 @@ namespace Lab2
         }
 
         public override object DeepCopy()
-        {
-			using (var ms = new MemoryStream())
-			{
-				var formatter = new BinaryFormatter();
-				formatter.Serialize(ms, this);
-				ms.Position = 0;
+		{
+            ResearchTeam other = (ResearchTeam)this.MemberwiseClone();
+            other._projectMembers = new System.Collections.ArrayList(_projectMembers);
+            other._publicationList = new System.Collections.ArrayList(_publicationList);
+            other._topicOfResearch = String.Copy(_topicOfResearch);
+            other._durationResearch = _durationResearch;
+            other._organizationName = String.Copy(_organizationName);
+			return other;
 
-                return (ResearchTeam)formatter.Deserialize(ms);
-			}
 		}
 
 		public System.Collections.ArrayList ProjectsMember
@@ -137,7 +142,28 @@ namespace Lab2
             }
         }
 
+		public System.Collections.IEnumerable GetPublicationsForTheLastYears(int countOfYears)
+		{
+            foreach (Paper element in _publicationList)
+            {
+                if(DateTime.Now.Year - element.PublicationDate.Year <= countOfYears)
+                {
+                    yield return element;
+                }
+            }
+		}
 
+		public System.Collections.IEnumerator GetPersonsWithoutPapers()
+		{
+            System.Collections.ArrayList personWithPapers = new System.Collections.ArrayList();
+            foreach (Person person in ProjectsMember)
+            {
+                if(!PublicationList.Contains(person))
+                {
+                    yield return person;
+                }
+            }
+		}
 
     }
 }
