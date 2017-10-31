@@ -3,10 +3,10 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
-    <ProjectGuid>{BCC3A39F-336F-4B25-A1BF-65C00A4EA0FF}</ProjectGuid>
+    <ProjectGuid>{CA410756-801D-4FEC-981F-3BCA2C5B688A}</ProjectGuid>
     <OutputType>Exe</OutputType>
-    <RootNamespace>Lab1</RootNamespace>
-    <AssemblyName>Lab1</AssemblyName>
+    <RootNamespace>Lab3</RootNamespace>
+    <AssemblyName>Lab3</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
@@ -34,10 +34,14 @@
   <ItemGroup>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ResearchTeam.cs" />
+    <Compile Include="Team.cs" />
+    <Compile Include="Paper.cs" />
     <Compile Include="Person.cs" />
     <Compile Include="TimeFrame.cs" />
-    <Compile Include="Paper.cs" />
-    <Compile Include="ResearchTeam.cs" />
+    <Compile Include="CompareCountOfPublication.cs" />
+    <Compile Include="ResearchTeamCollections.cs" />
+    <Compile Include="TestCollection.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -1,15 +1,14 @@
 ﻿using System;
-using System;
-using System.IO;
-using System.Runtime.Serialization;
-using System.Runtime.Serialization.Formatters.Binary;
+using System.Collections.Generic;
 
-namespace Lab2
+namespace Lab3
 {
-    public class Team : INameAndCopy
+    public class Team : IComparable<Team>
     {
         protected string _organizationName;
         protected int _registrationNumber;
+
+		
 
         public Team()
         {
@@ -122,6 +121,15 @@ namespace Lab2
         {
             return string.Format("Team - {0}, RegistrationNumber = {1}]", Name, RegistrationNumber);
         }
+
+		public int CompareTo(Team that)
+		{
+			if (this.RegistrationNumber > that.RegistrationNumber) return -1;
+			if (this.RegistrationNumber == that.RegistrationNumber) return 0;
+			return 1;
+		}
+
+		
        
     }
 }

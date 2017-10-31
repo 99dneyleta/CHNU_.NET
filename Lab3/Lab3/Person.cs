@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.IO;
-namespace Lab2
+namespace Lab3
 {
     public class Person
     {

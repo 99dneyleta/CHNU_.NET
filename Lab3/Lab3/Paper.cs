@@ -1,5 +1,5 @@
 ﻿using System;
-namespace Lab1
+namespace Lab3
 {
     public class Paper
     {
@@ -24,7 +24,7 @@ namespace Lab1
 
         public override string ToString()
         {
-            return string.Format("[Paper: PublicationName={0}, Author={1}, PublicationDate={2}]", PublicationName, Author, PublicationDate);
+            return string.Format("[Paper: PublicationName={0}, Author={1}, PublicationDate={2} ]", PublicationName, Author, PublicationDate);
         }
     }
 }

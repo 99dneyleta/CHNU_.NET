@@ -1,34 +1,35 @@
 ﻿using System;
+using System.Collections;
 
-namespace Lab2
+namespace Lab3
 {
-    public class ResearchTeam : Team
+    public class ResearchTeam : Team, System.Collections.Generic.IComparer<ResearchTeam>
     {
         private string _topicOfResearch;
         private TimeFrame _durationResearch;
-        private System.Collections.ArrayList _projectMembers;
-        private System.Collections.ArrayList _publicationList;
+        private System.Collections.Generic.List<Person> _projectMembers;
+        private System.Collections.Generic.List<Paper> _publicationList;
 
-        public ResearchTeam(string organizationName,string researchTopic,int registrationNumber, TimeFrame duration)
+        public ResearchTeam(string organizationName, string researchTopic, int registrationNumber, TimeFrame duration)
         {
             _organizationName = organizationName;
             _registrationNumber = registrationNumber;
             _topicOfResearch = researchTopic;
             _durationResearch = duration;
-            _projectMembers = new System.Collections.ArrayList();
-            _publicationList = new System.Collections.ArrayList();
+            _projectMembers = new System.Collections.Generic.List<Person>();
+            _publicationList = new System.Collections.Generic.List<Paper>();
         }
 
-		public ResearchTeam()
-		{
-			
-			_topicOfResearch = "research_topic";
-            _durationResearch = TimeFrame.Year;
-			_projectMembers = new System.Collections.ArrayList();
-			_publicationList = new System.Collections.ArrayList();
-		}
+        public ResearchTeam()
+        {
 
-        public System.Collections.ArrayList PublicationList
+            _topicOfResearch = "research_topic";
+            _durationResearch = TimeFrame.Year;
+            _projectMembers = new System.Collections.Generic.List<Person>();
+            _publicationList = new System.Collections.Generic.List<Paper>();
+        }
+
+        public System.Collections.Generic.List<Paper> PublicationList
         {
             get
             {
@@ -37,6 +38,14 @@ namespace Lab2
             set
             {
                 _publicationList = value;
+            }
+        }
+
+        public TimeFrame DurationResearch
+        {
+            get
+            {
+                return _durationResearch;
             }
         }
 
@@ -50,10 +59,10 @@ namespace Lab2
                 }
                 else
                 {
-                    return (Paper)_publicationList[_publicationList.Count - 1];
+                    return _publicationList[_publicationList.Count - 1];
                 }
+			}
 
-            }
         }
 
         void AddPapers(params Paper[] newPublications)
@@ -62,7 +71,7 @@ namespace Lab2
             {
                 for (int i = 0; i < newPublications.Length; i++)
                 {
-                    _projectMembers.Add(newPublications[i]);
+                    _publicationList.Add(newPublications[i]);
                 }
 
             }
@@ -104,8 +113,8 @@ namespace Lab2
         public override object DeepCopy()
 		{
             ResearchTeam other = (ResearchTeam)this.MemberwiseClone();
-            other._projectMembers = new System.Collections.ArrayList(_projectMembers);
-            other._publicationList = new System.Collections.ArrayList(_publicationList);
+            other._projectMembers = new System.Collections.Generic.List<Person>(_projectMembers);
+            other._publicationList = new System.Collections.Generic.List<Paper>(_publicationList);
             other._topicOfResearch = String.Copy(_topicOfResearch);
             other._durationResearch = _durationResearch;
             other._organizationName = String.Copy(_organizationName);
@@ -113,7 +122,7 @@ namespace Lab2
 
 		}
 
-		public System.Collections.ArrayList ProjectsMember
+        public System.Collections.Generic.List<Person> ProjectsMember
 		{
 			get
 			{
@@ -149,17 +158,33 @@ namespace Lab2
             }
 		}
 
-		public System.Collections.IEnumerator GetPersonsWithoutPapers()
-		{
-            System.Collections.ArrayList personWithPapers = new System.Collections.ArrayList();
-            foreach (Person person in ProjectsMember)
-            {
-                if(!PublicationList.Contains(person))
-                {
-                    yield return person;
-                }
-            }
-		}
+		//public System.Collections.IEnumerator GetPersonsWithoutPapers()
+		//{
+		//System.Collections.ArrayList personWithPapers = new System.Collections.ArrayList();
+		//foreach (Person person in ProjectsMember)
+		//{
+		//    if(!PublicationList.Find(person))
+		//    {
+		//        yield return person;
+		//    }
+
+		//    System.Collections.Generic.List<Person> result = _publicationList.FindAll(
+		//    delegate (Paper p)
+		//    {
+		//        Person
+		//    })
+		//}    need to use .find with delegate
+		//}
+
+
+		
+
+        public int Compare(ResearchTeam first, ResearchTeam second)
+        {
+            return StringComparer.CurrentCulture.Compare(first._topicOfResearch, second._topicOfResearch);
+        }
+
+
 
     }
 }
